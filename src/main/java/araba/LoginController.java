@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
@@ -22,16 +24,23 @@ import javax.swing.JOptionPane;
  * @author enesb
  */
 public class LoginController implements Initializable {
+
     private String user;
+    private boolean check = true;
     private String pass;
+    @FXML
+    private Button btn;
     @FXML
     private TextField us;
     @FXML
-    private PasswordField pa;
+    private TextField us1;
     @FXML
-    private void tetik(ActionEvent event){
+    private PasswordField pa;
+
+    @FXML
+    private void tetik(ActionEvent event) {
         Statement sta = null;
-        conn c=new conn();
+        conn c = new conn();
         try {
             sta = (Statement) c.call();
         } catch (SQLException ex) {
@@ -41,29 +50,55 @@ public class LoginController implements Initializable {
         ResultSet rs;
         try {
             rs = sta.executeQuery("select * from login");
-            user=us.getText();
-            pass=pa.getText();
+            user = us.getText();
+            if (check) {
+                pass = pa.getText();
+            } else {
+                pass=us1.getText();
+            }
             while (rs.next()) {
-                String a=rs.getString("name");
-                String aa=rs.getString("pas");
-                if (user.equals(a)&&pass.equals(aa)) {
+                String a = rs.getString("name");
+                String aa = rs.getString("pas");
+                if (user.equals(a) && pass.equals(aa)) {
                     JOptionPane.showMessageDialog(null, "giriş başarılı");
-                    c.ekrand(event, "2.fxml",true);
+                    c.ekrand(event, "2.fxml", true);
                 }
-        }
+            }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "veri tabanı veri seçme hatası");
         }
-        
-        
+
         c.kapat();
     }
-    
+
+    @FXML
+    public void teke(ActionEvent event) {
+        if (check) {
+            btn.getStyleClass().remove(1);
+            btn.getStyleClass().add("checkboxx");
+            pa.setDisable(true);
+            pa.setVisible(false);
+            us1.setText(pa.getText());
+            us1.setDisable(false);
+            us1.setVisible(true);
+            check = false;
+        } else {
+            btn.getStyleClass().remove(1);
+            btn.getStyleClass().add("checkbox");
+            us1.setDisable(false);
+            us1.setVisible(false);
+            pa.setDisable(false);
+            pa.setText(us1.getText());
+            pa.setVisible(true);
+            check = true;
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+
+    }
+
 }
 /*
 Parent root = FXMLLoader.load(getClass().getResource("ekran2.fxml"));
@@ -71,4 +106,4 @@ Parent root = FXMLLoader.load(getClass().getResource("ekran2.fxml"));
         Scene sc=new Scene(root);
         st.setScene(sc);
         st.show();
-*/
+ */

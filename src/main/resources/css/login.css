@@ -2,3 +2,13 @@
     -fx-background-image: url("../res/ara1.jpeg");
     -fx-background-size: contain;
 }
+
+.checkbox {
+    -fx-graphic: url("../res/hidee.png");
+    -fx-background-color: transparent;
+}
+
+.checkboxx {
+    -fx-graphic: url("../res/showw.png");
+    -fx-background-color: transparent;
+}

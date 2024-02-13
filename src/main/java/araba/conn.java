@@ -29,11 +29,8 @@ public class conn {
     }
     
     public Statement call() throws SQLException {
-        System.out.println("burda");
         c = DriverManager.getConnection("jdbc:sqlite:src/main/resources/data/ara.sqlite");
-        System.out.println("bura 1");
         Statement st = (Statement) c.createStatement();
-        System.out.println("bura2");
         return st;
     }
     public void kapat(){
